@@ -1,0 +1,16 @@
+digraph ER {
+  rankdir=LR; node [shape=plain, fontname="Arial", fontsize=10]; edge [fontname="Arial", fontsize=9];
+  aluno [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#2E5E8C"><font color="white"><b>ALUNO</b></font></td></tr><tr><td align="left"><u>id_aluno</u> PK<br align="left"/>nome<br align="left"/>cpf UK<br align="left"/>email UK<br align="left"/>data_nascimento<br align="left"/>telefone<br align="left"/></td></tr></table>>];
+  matricula [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#2E5E8C"><font color="white"><b>MATRICULA</b></font></td></tr><tr><td align="left"><u>id_matricula</u> PK<br align="left"/>id_aluno FK<br align="left"/>id_turma FK<br align="left"/>data_matricula<br align="left"/>situacao<br align="left"/>UK(id_aluno,id_turma)<br align="left"/></td></tr></table>>];
+  turma [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#2E5E8C"><font color="white"><b>TURMA</b></font></td></tr><tr><td align="left"><u>id_turma</u> PK<br align="left"/>id_idioma FK<br align="left"/>id_professor FK<br align="left"/>nivel, semestre<br align="left"/>dia_semana<br align="left"/>hora_inicio, hora_fim<br align="left"/>vagas<br align="left"/></td></tr></table>>];
+  avaliacao [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#2E5E8C"><font color="white"><b>AVALIACAO</b></font></td></tr><tr><td align="left"><u>id_avaliacao</u> PK<br align="left"/>id_matricula FK<br align="left"/>tipo<br align="left"/>nota (0 a 10)<br align="left"/>data_aplicacao<br align="left"/>UK(id_matricula,tipo)<br align="left"/></td></tr></table>>];
+  idioma [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#2E5E8C"><font color="white"><b>IDIOMA</b></font></td></tr><tr><td align="left"><u>id_idioma</u> PK<br align="left"/>nome UK<br align="left"/></td></tr></table>>];
+  professor [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#2E5E8C"><font color="white"><b>PROFESSOR</b></font></td></tr><tr><td align="left"><u>id_professor</u> PK<br align="left"/>nome<br align="left"/>email UK<br align="left"/>salario_hora<br align="left"/></td></tr></table>>];
+  pi [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="3"><tr><td bgcolor="#7A8B99"><font color="white"><b>PROFESSOR_IDIOMA</b></font></td></tr><tr><td align="left">id_professor PK,FK<br align="left"/>id_idioma PK,FK<br align="left"/></td></tr></table>>];
+  aluno -> matricula [label="1 : N", arrowhead=crow];
+  turma -> matricula [label="1 : N", arrowhead=crow, dir=both, arrowtail=none];
+  matricula -> avaliacao [label="1 : N", arrowhead=crow];
+  idioma -> turma [label="1 : N", arrowhead=crow];
+  professor -> turma [label="1 : N", arrowhead=crow];
+  professor -> pi [arrowhead=crow]; idioma -> pi [arrowhead=crow];
+}

@@ -1,0 +1,95 @@
+  tabela   |     coluna      |            tipo             | tam  | nulo 
+-----------+-----------------+-----------------------------+------+------
+ aluno     | id_aluno        | integer                     | 32,0 | NO
+ aluno     | nome            | character varying           | 100  | NO
+ aluno     | cpf             | character                   | 11   | NO
+ aluno     | email           | character varying           | 120  | NO
+ aluno     | data_nascimento | date                        |      | NO
+ aluno     | telefone        | character varying           | 15   | YES
+ aluno     | criado_em       | timestamp without time zone |      | NO
+ avaliacao | id_avaliacao    | integer                     | 32,0 | NO
+ avaliacao | id_matricula    | integer                     | 32,0 | NO
+ avaliacao | tipo            | character varying           | 10   | NO
+ avaliacao | nota            | numeric                     | 4,2  | NO
+ avaliacao | data_aplicacao  | date                        |      | NO
+ turma     | id_turma        | integer                     | 32,0 | NO
+ turma     | id_idioma       | smallint                    | 16,0 | NO
+ turma     | id_professor    | integer                     | 32,0 | NO
+ turma     | nivel           | character varying           | 2    | NO
+ turma     | semestre        | character                   | 6    | NO
+ turma     | dia_semana      | smallint                    | 16,0 | NO
+ turma     | hora_inicio     | time without time zone      |      | NO
+ turma     | hora_fim        | time without time zone      |      | NO
+ turma     | vagas           | smallint                    | 16,0 | NO
+(21 rows)
+
+      tabela      |                       restricao                        |  tipo  
+------------------+--------------------------------------------------------+--------
+ aluno            | aluno_cpf_check                                        | CHECK
+ aluno            | aluno_data_nascimento_check                            | CHECK
+ aluno            | aluno_email_check                                      | CHECK
+ aluno            | aluno_pkey                                             | PK
+ aluno            | aluno_cpf_key                                          | UNIQUE
+ aluno            | aluno_email_key                                        | UNIQUE
+ aluno            | aluno_cpf_not_null                                     | 
+ aluno            | aluno_criado_em_not_null                               | 
+ aluno            | aluno_data_nascimento_not_null                         | 
+ aluno            | aluno_email_not_null                                   | 
+ aluno            | aluno_id_aluno_not_null                                | 
+ aluno            | aluno_nome_not_null                                    | 
+ idioma           | idioma_pkey                                            | PK
+ idioma           | idioma_nome_key                                        | UNIQUE
+ idioma           | idioma_id_idioma_not_null                              | 
+ idioma           | idioma_nome_not_null                                   | 
+ professor        | professor_salario_hora_check                           | CHECK
+ professor        | professor_pkey                                         | PK
+ professor        | professor_email_key                                    | UNIQUE
+ professor        | professor_email_not_null                               | 
+ professor        | professor_id_professor_not_null                        | 
+ professor        | professor_nome_not_null                                | 
+ professor        | professor_salario_hora_not_null                        | 
+ professor_idioma | professor_idioma_id_idioma_fkey                        | FK
+ professor_idioma | professor_idioma_id_professor_fkey                     | FK
+ professor_idioma | professor_idioma_pkey                                  | PK
+ professor_idioma | professor_idioma_id_idioma_not_null                    | 
+ professor_idioma | professor_idioma_id_professor_not_null                 | 
+ turma            | turma_check                                            | CHECK
+ turma            | turma_dia_semana_check                                 | CHECK
+ turma            | turma_nivel_check                                      | CHECK
+ turma            | turma_semestre_check                                   | CHECK
+ turma            | turma_vagas_check                                      | CHECK
+ turma            | turma_id_idioma_fkey                                   | FK
+ turma            | turma_id_professor_fkey                                | FK
+ turma            | turma_pkey                                             | PK
+ turma            | turma_id_professor_semestre_dia_semana_hora_inicio_key | UNIQUE
+ turma            | turma_dia_semana_not_null                              | 
+ turma            | turma_hora_fim_not_null                                | 
+ turma            | turma_hora_inicio_not_null                             | 
+ turma            | turma_id_idioma_not_null                               | 
+ turma            | turma_id_professor_not_null                            | 
+ turma            | turma_id_turma_not_null                                | 
+ turma            | turma_nivel_not_null                                   | 
+ turma            | turma_semestre_not_null                                | 
+ turma            | turma_vagas_not_null                                   | 
+ matricula        | matricula_situacao_check                               | CHECK
+ matricula        | matricula_id_aluno_fkey                                | FK
+ matricula        | matricula_id_turma_fkey                                | FK
+ matricula        | matricula_pkey                                         | PK
+ matricula        | matricula_id_aluno_id_turma_key                        | UNIQUE
+ matricula        | matricula_data_matricula_not_null                      | 
+ matricula        | matricula_id_aluno_not_null                            | 
+ matricula        | matricula_id_matricula_not_null                        | 
+ matricula        | matricula_id_turma_not_null                            | 
+ matricula        | matricula_situacao_not_null                            | 
+ avaliacao        | avaliacao_nota_check                                   | CHECK
+ avaliacao        | avaliacao_tipo_check                                   | CHECK
+ avaliacao        | avaliacao_id_matricula_fkey                            | FK
+ avaliacao        | avaliacao_pkey                                         | PK
+ avaliacao        | avaliacao_id_matricula_tipo_key                        | UNIQUE
+ avaliacao        | avaliacao_data_aplicacao_not_null                      | 
+ avaliacao        | avaliacao_id_avaliacao_not_null                        | 
+ avaliacao        | avaliacao_id_matricula_not_null                        | 
+ avaliacao        | avaliacao_nota_not_null                                | 
+ avaliacao        | avaliacao_tipo_not_null                                | 
+(66 rows)
+

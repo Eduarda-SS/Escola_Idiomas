@@ -1,0 +1,6 @@
+turma de teste=4566 (1 vaga)
+sessao A:  pg_sleep 
+sessao A: ----------
+sessao A:  
+sessao A: (1 row)
+sessao A: 
