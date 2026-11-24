@@ -1,0 +1,36 @@
+D1: CHECK com CURRENT_DATE (aceito; ja existe em aluno.data_nascimento)
+           conname           |                 definicao                 
+-----------------------------+-------------------------------------------
+ aluno_data_nascimento_check | CHECK ((data_nascimento <= CURRENT_DATE))
+(1 row)
+
+D2: count(*) FILTER (WHERE ...)
+ ativas 
+--------
+   1005
+(1 row)
+
+D3: INSERT ... ON CONFLICT DO NOTHING (nao duplica o idioma)
+INSERT 0 1
+ idiomas 
+---------
+       6
+(1 row)
+
+D4: INSERT ... SELECT FROM turma com gatilho que trava a turma (FOR UPDATE) - funciona
+BEGIN
+INSERT 0 1
+ linhas_inseridas 
+------------------
+                1
+(1 row)
+
+ROLLBACK
+D5: FK sem indice automatico - indices existentes em matricula
+            indexname            
+---------------------------------
+ idx_matricula_turma_sit
+ matricula_id_aluno_id_turma_key
+ matricula_pkey
+(3 rows)
+

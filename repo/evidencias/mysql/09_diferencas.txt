@@ -1,0 +1,24 @@
++----------------------------------------+
+| teste                                  |
++----------------------------------------+
+| D1: CHECK (d <= CURRENT_DATE) em MySQL |
++----------------------------------------+
+ERROR 3814 (HY000) at line 4: An expression of a check constraint 'chk_d' contains disallowed function: curdate.
++------------------------------------------+
+| teste                                    |
++------------------------------------------+
+| D2: count(*) FILTER (WHERE ...) em MySQL |
++------------------------------------------+
+ERROR 1064 (42000) at line 7: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(WHERE situacao='ATIVA') FROM matricula' at line 1
++-------------------------------------+
+| teste                               |
++-------------------------------------+
+| D3: ON CONFLICT DO NOTHING em MySQL |
++-------------------------------------+
+ERROR 1064 (42000) at line 10: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CONFLICT DO NOTHING' at line 1
++---------------------------------------------------------------------------+
+| teste                                                                     |
++---------------------------------------------------------------------------+
+| D4: INSERT ... SELECT FROM turma com gatilho que trava turma (FOR UPDATE) |
++---------------------------------------------------------------------------+
+ERROR 1442 (HY000) at line 13: Can't update table 'turma' in stored function/trigger because it is already used by statement which invoked this stored function/trigger.

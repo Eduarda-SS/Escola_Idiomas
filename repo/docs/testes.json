@@ -1,0 +1,40 @@
+{
+ "pg": {
+  "T1": "aluno_cpf_check",
+  "T2": "aluno_cpf_key",
+  "T3": "aluno_email_check",
+  "T4": "aluno_data_nascimento_check",
+  "T5": "NOT NULL em nome",
+  "T6": "avaliacao_nota_check",
+  "T7": "avaliacao_id_matricula_tipo_key",
+  "T8": "matricula_id_aluno_fkey",
+  "T9": "matricula_id_aluno_id_turma_key",
+  "T10": "turma_nivel_check",
+  "T11": "turma_check",
+  "T12": "Professor 1 nao habilitado no idioma 4",
+  "T13": "turma_id_professor_semestre_dia_semana_hora_inicio_key",
+  "T14": "matricula_id_turma_fkey",
+  "T15": "Turma 4566 sem vagas",
+  "T16": "OK",
+  "T17": "OK"
+ },
+ "my": {
+  "T1": "erro 3819: chk_aluno_cpf",
+  "T2": "erro 1062: uq_aluno_cpf",
+  "T3": "erro 3819: chk_aluno_email",
+  "T4": "erro 1644: Data de nascimento no futuro",
+  "T5": "erro 1048: NOT NULL em nome",
+  "T6": "erro 3819: chk_av_nota",
+  "T7": "erro 1062: uq_av_mat_tipo",
+  "T8": "erro 1452: fk_mat_aluno",
+  "T9": "erro 1062: uq_mat_aluno_turma",
+  "T10": "erro 3819: chk_turma_nivel",
+  "T11": "erro 3819: chk_turma_hora",
+  "T12": "erro 1644: Professor nao habilitado no idioma",
+  "T13": "erro 1062: uq_turma_horario",
+  "T14": "erro 1451: fk_mat_turma",
+  "T15": "erro 1644: Turma sem vagas",
+  "T16": "OK",
+  "T17": "OK"
+ }
+}

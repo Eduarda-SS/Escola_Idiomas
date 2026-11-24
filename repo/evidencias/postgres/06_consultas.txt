@@ -1,0 +1,51 @@
+--- C1: Boletim do aluno 100 (média e situação) ---
+   nome    |  idioma  | nivel | semestre | media | resultado 
+-----------+----------+-------+----------+-------+-----------
+ Aluno 100 | InglÃªs  | B2    | 2020.1   |  6.39 | REPROVADO
+ Aluno 100 | Italiano | C1    | 2020.2   |  7.03 | APROVADO
+ Aluno 100 | AlemÃ£o  | A1    | 2023.2   |  7.46 | APROVADO
+ Aluno 100 | FrancÃªs | A2    | 2024.1   |  7.79 | APROVADO
+ Aluno 100 | Espanhol | C1    | 2024.2   |  7.69 | APROVADO
+ Aluno 100 | InglÃªs  | C2    | 2025.1   |  5.58 | REPROVADO
+(6 rows)
+
+--- C2: Ocupação das turmas de 2026.1 (top 5 mais cheias) ---
+ id_turma |  idioma  | nivel |  professor  | vagas | ativos | ocupacao_pct 
+----------+----------+-------+-------------+-------+--------+--------------
+       11 | FrancÃªs | B2    | Professor 2 |    20 |     17 |         85.0
+       12 | FrancÃªs | C1    | Professor 2 |    20 |     17 |         85.0
+       24 | AlemÃ£o  | C2    | Professor 3 |    20 |     17 |         85.0
+       51 | FrancÃªs | B1    | Professor 7 |    20 |     17 |         85.0
+       63 | AlemÃ£o  | B2    | Professor 8 |    20 |     17 |         85.0
+(5 rows)
+
+--- C3: Média geral e taxa de aprovação por idioma ---
+  idioma  | matriculas | media_geral | aprovacao_pct 
+----------+------------+-------------+---------------
+ AlemÃ£o  |      60253 |        6.99 |          50.1
+ InglÃªs  |      60237 |        6.99 |          49.7
+ FrancÃªs |      60217 |        6.98 |          49.5
+ Espanhol |      60218 |        6.98 |          49.6
+ Italiano |      60186 |        6.98 |          49.6
+(5 rows)
+
+--- C4: Alunos com média abaixo de 5 em 2026.1 (alerta pedagógico, 5 primeiros) ---
+    nome    | id_turma | media 
+------------+----------+-------
+ Aluno 2743 |       28 |  3.98
+ Aluno 5873 |       60 |  4.02
+ Aluno 1935 |       19 |  4.03
+ Aluno 1631 |       16 |  4.04
+ Aluno 305  |        3 |  4.08
+(5 rows)
+
+--- C5: Carga horária semanal e custo por professor (top 5) ---
+     nome     | turmas_2026_1 |    horas_semana    |     custo_semanal      
+--------------+---------------+--------------------+------------------------
+ Professor 9  |             4 | 8.0000000000000000 | 480.000000000000000000
+ Professor 19 |             4 | 8.0000000000000000 | 480.000000000000000000
+ Professor 4  |             4 | 8.0000000000000000 | 480.000000000000000000
+ Professor 14 |             4 | 8.0000000000000000 | 480.000000000000000000
+ Professor 8  |             4 | 8.0000000000000000 | 440.000000000000000000
+(5 rows)
+

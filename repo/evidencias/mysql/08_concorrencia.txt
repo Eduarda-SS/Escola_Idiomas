@@ -1,0 +1,9 @@
+turma de teste=8449 (1 vaga)
+sessao B: ERROR 1644 (45000) at line 1: Turma sem vagas
+sessao B: concluida
+sessao A: concluida (COMMIT)
++-------------------+-------+
+| matriculas_ativas | vagas |
++-------------------+-------+
+|                 1 |     1 |
++-------------------+-------+

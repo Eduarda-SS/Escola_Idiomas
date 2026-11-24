@@ -1,0 +1,224 @@
+{
+ "C1": [
+  [
+   "nome",
+   "idioma",
+   "nivel",
+   "semestre",
+   "media",
+   "resultado"
+  ],
+  [
+   "Aluno 100",
+   "Inglês",
+   "B2",
+   "2020.1",
+   "7.62",
+   "APROVADO"
+  ],
+  [
+   "Aluno 100",
+   "Italiano",
+   "C1",
+   "2020.2",
+   "6.03",
+   "REPROVADO"
+  ],
+  [
+   "Aluno 100",
+   "Alemão",
+   "A1",
+   "2023.2",
+   "6.54",
+   "REPROVADO"
+  ],
+  [
+   "Aluno 100",
+   "Francês",
+   "A2",
+   "2024.1",
+   "6.35",
+   "REPROVADO"
+  ],
+  [
+   "Aluno 100",
+   "Espanhol",
+   "C1",
+   "2024.2",
+   "7.67",
+   "APROVADO"
+  ],
+  [
+   "Aluno 100",
+   "Inglês",
+   "C2",
+   "2025.1",
+   "6.26",
+   "REPROVADO"
+  ]
+ ],
+ "C2": [
+  [
+   "id_turma",
+   "idioma",
+   "nivel",
+   "professor",
+   "vagas",
+   "ativos",
+   "ocupacao_pct"
+  ],
+  [
+   "11",
+   "Francês",
+   "B2",
+   "Professor 2",
+   "20",
+   "17",
+   "85.0"
+  ],
+  [
+   "12",
+   "Francês",
+   "C1",
+   "Professor 2",
+   "20",
+   "17",
+   "85.0"
+  ],
+  [
+   "24",
+   "Alemão",
+   "C2",
+   "Professor 3",
+   "20",
+   "17",
+   "85.0"
+  ],
+  [
+   "51",
+   "Francês",
+   "B1",
+   "Professor 7",
+   "20",
+   "17",
+   "85.0"
+  ],
+  [
+   "63",
+   "Alemão",
+   "B2",
+   "Professor 8",
+   "20",
+   "17",
+   "85.0"
+  ]
+ ],
+ "C3": [
+  [
+   "idioma",
+   "matriculas",
+   "media_geral",
+   "aprovacao_pct"
+  ],
+  [
+   "Espanhol",
+   "60218",
+   "6.99",
+   "49.7"
+  ],
+  [
+   "Inglês",
+   "60237",
+   "6.99",
+   "50.1"
+  ],
+  [
+   "Francês",
+   "60217",
+   "6.99",
+   "50.2"
+  ],
+  [
+   "Alemão",
+   "60253",
+   "6.98",
+   "49.6"
+  ],
+  [
+   "Italiano",
+   "60186",
+   "6.98",
+   "49.6"
+  ]
+ ],
+ "C4": [
+  [
+   "nome",
+   "id_turma",
+   "media"
+  ],
+  [
+   "Aluno 14856",
+   "151",
+   "3.52"
+  ],
+  [
+   "Aluno 2058",
+   "20",
+   "3.68"
+  ],
+  [
+   "Aluno 4347",
+   "44",
+   "4.10"
+  ],
+  [
+   "Aluno 10115",
+   "104",
+   "4.30"
+  ],
+  [
+   "Aluno 9727",
+   "100",
+   "4.31"
+  ]
+ ],
+ "C5": [
+  [
+   "nome",
+   "turmas_2026_1",
+   "horas_semana",
+   "custo_semanal"
+  ],
+  [
+   "Professor 9",
+   "4",
+   "8",
+   "480.00"
+  ],
+  [
+   "Professor 19",
+   "4",
+   "8",
+   "480.00"
+  ],
+  [
+   "Professor 4",
+   "4",
+   "8",
+   "480.00"
+  ],
+  [
+   "Professor 14",
+   "4",
+   "8",
+   "480.00"
+  ],
+  [
+   "Professor 8",
+   "4",
+   "8",
+   "440.00"
+  ]
+ ]
+}

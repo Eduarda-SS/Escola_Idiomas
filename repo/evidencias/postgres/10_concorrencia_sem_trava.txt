@@ -1,0 +1,3 @@
+turma de teste=4561 (1 vaga)
+ matriculas_ativas | vagas 
+                 2 |     1

@@ -1,0 +1,238 @@
+{
+ "indices": {
+  "Q1": {
+   "pg": {
+    "S0_sem_indice": {
+     "ms": 19.319,
+     "min": 18.508,
+     "max": 20.235,
+     "plano": "Parallel Seq Scan on matricula_sem"
+    },
+    "S1_esquema": {
+     "ms": 0.126,
+     "min": 0.086,
+     "max": 0.14,
+     "plano": "Bitmap Heap Scan on matricula"
+    },
+    "S2_indices": {
+     "ms": 0.118,
+     "min": 0.089,
+     "max": 0.153,
+     "plano": "Bitmap Heap Scan on matricula"
+    }
+   },
+   "mysql": {
+    "S0_sem_indice": {
+     "ms": 149.0,
+     "min": 144.0,
+     "max": 169.0,
+     "plano": "Table scan on matricula_sem"
+    },
+    "S1_esquema": {
+     "ms": 0.0262,
+     "min": 0.0258,
+     "max": 0.0314,
+     "plano": "Index lookup on matricula using uq_mat_aluno_turma (id_aluno=12345)"
+    },
+    "S2_indices": {
+     "ms": 0.0275,
+     "min": 0.025,
+     "max": 0.0306,
+     "plano": "Index lookup on matricula using uq_mat_aluno_turma (id_aluno=12345)"
+    }
+   }
+  },
+  "Q2": {
+   "pg": {
+    "S0_sem_indice": {
+     "ms": 51.109,
+     "min": 50.502,
+     "max": 56.455,
+     "plano": "Parallel Seq Scan on avaliacao_sem"
+    },
+    "S1_esquema": {
+     "ms": 0.063,
+     "min": 0.059,
+     "max": 0.08,
+     "plano": "Index Scan using avaliacao_id_matricula_tipo_key on avaliacao"
+    },
+    "S2_indices": {
+     "ms": 0.06,
+     "min": 0.059,
+     "max": 0.106,
+     "plano": "Index Scan using avaliacao_id_matricula_tipo_key on avaliacao"
+    }
+   },
+   "mysql": {
+    "S0_sem_indice": {
+     "ms": 512.0,
+     "min": 436.0,
+     "max": 622.0,
+     "plano": "Table scan on avaliacao_sem"
+    },
+    "S1_esquema": {
+     "ms": 0.0189,
+     "min": 0.018,
+     "max": 0.0233,
+     "plano": "Index lookup on avaliacao using uq_av_mat_tipo (id_matricula=150000)"
+    },
+    "S2_indices": {
+     "ms": 0.0178,
+     "min": 0.0171,
+     "max": 0.0186,
+     "plano": "Index lookup on avaliacao using uq_av_mat_tipo (id_matricula=150000)"
+    }
+   }
+  },
+  "Q3": {
+   "pg": {
+    "S0_sem_indice": {
+     "ms": 0.399,
+     "min": 0.357,
+     "max": 0.451,
+     "plano": "Seq Scan on turma_sem"
+    },
+    "S1_esquema": {
+     "ms": 0.371,
+     "min": 0.353,
+     "max": 0.408,
+     "plano": "Seq Scan on turma"
+    },
+    "S2_indices": {
+     "ms": 0.081,
+     "min": 0.074,
+     "max": 0.096,
+     "plano": "Bitmap Heap Scan on turma"
+    }
+   },
+   "mysql": {
+    "S0_sem_indice": {
+     "ms": 2.89,
+     "min": 2.75,
+     "max": 3.02,
+     "plano": "Table scan on turma_sem"
+    },
+    "S1_esquema": {
+     "ms": 1.64,
+     "min": 1.57,
+     "max": 1.71,
+     "plano": "Table scan on turma"
+    },
+    "S2_indices": {
+     "ms": 0.104,
+     "min": 0.102,
+     "max": 0.145,
+     "plano": "Index lookup on turma using idx_turma_semestre (semestre='2026.1'), with index condition: (turma.semestre = '2026.1')"
+    }
+   }
+  },
+  "Q4": {
+   "pg": {
+    "S0_sem_indice": {
+     "ms": 21.968,
+     "min": 20.396,
+     "max": 25.244,
+     "plano": "Parallel Seq Scan on matricula_sem"
+    },
+    "S1_esquema": {
+     "ms": 21.967,
+     "min": 20.422,
+     "max": 22.772,
+     "plano": "Parallel Seq Scan on matricula"
+    },
+    "S2_indices": {
+     "ms": 0.07,
+     "min": 0.068,
+     "max": 0.074,
+     "plano": "Index Only Scan using idx_matricula_turma_sit on matricula"
+    }
+   },
+   "mysql": {
+    "S0_sem_indice": {
+     "ms": 136.0,
+     "min": 135.0,
+     "max": 147.0,
+     "plano": "Table scan on matricula_sem"
+    },
+    "S1_esquema": {
+     "ms": 0.0403,
+     "min": 0.0318,
+     "max": 0.0986,
+     "plano": "Index lookup on matricula using fk_mat_turma (id_turma=11)"
+    },
+    "S2_indices": {
+     "ms": 0.009,
+     "min": 0.00852,
+     "max": 0.00976,
+     "plano": "Covering index lookup on matricula using idx_matricula_turma_sit (id_turma=11, situacao='ATIVA')"
+    }
+   }
+  }
+ },
+ "consultas": {
+  "C1": {
+   "pg": {
+    "ms": 0.331,
+    "min": 0.296,
+    "max": 0.359
+   },
+   "mysql": {
+    "ms": 0.235,
+    "min": 0.198,
+    "max": 0.342
+   }
+  },
+  "C2": {
+   "pg": {
+    "ms": 81.981,
+    "min": 81.515,
+    "max": 83.877
+   },
+   "mysql": {
+    "ms": 2.38,
+    "min": 2.32,
+    "max": 2.5
+   }
+  },
+  "C3": {
+   "pg": {
+    "ms": 1072.305,
+    "min": 1015.189,
+    "max": 1218.866
+   },
+   "mysql": {
+    "ms": 7668.0,
+    "min": 7167.0,
+    "max": 9028.0
+   }
+  },
+  "C4": {
+   "pg": {
+    "ms": 54.487,
+    "min": 53.764,
+    "max": 55.459
+   },
+   "mysql": {
+    "ms": 17.2,
+    "min": 16.3,
+    "max": 17.5
+   }
+  },
+  "C5": {
+   "pg": {
+    "ms": 0.235,
+    "min": 0.223,
+    "max": 0.265
+   },
+   "mysql": {
+    "ms": 0.326,
+    "min": 0.275,
+    "max": 0.362
+   }
+  }
+ },
+ "tamanhos": {
+  "pg": "219 MB|35 MB|17 MB|96 MB|47 MB",
+  "mysql": "aluno\t4.5\t5.0\navaliacao\t35.6\t17.5\nmatricula\t13.5\t17.0\nturma\t0.3\t0.4"
+ }
+}

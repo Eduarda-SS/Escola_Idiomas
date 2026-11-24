@@ -1,0 +1,58 @@
+Table	Op	Msg_type	Msg_text
+escola_idiomas.matricula_sem	analyze	status	OK
+escola_idiomas.avaliacao_sem	analyze	status	OK
+escola_idiomas.turma_sem	analyze	status	OK
+estagio
+=== S0: SEM INDICE (copias sem chaves) ===
+EXPLAIN
+-> Filter: (matricula_sem.id_aluno = 12345)  (cost=30389 rows=30141) (actual time=8.6..157 rows=6 loops=1)
+    -> Table scan on matricula_sem  (cost=30389 rows=301410) (actual time=0.0275..140 rows=302226 loops=1)
+
+EXPLAIN
+-> Filter: (avaliacao_sem.id_matricula = 150000)  (cost=91386 rows=90410) (actual time=237..494 rows=3 loops=1)
+    -> Table scan on avaliacao_sem  (cost=91386 rows=904098) (actual time=0.00957..445 rows=906482 loops=1)
+
+EXPLAIN
+-> Filter: (turma_sem.semestre = '2026.1')  (cost=460 rows=456) (actual time=0.0221..4.82 rows=80 loops=1)
+    -> Table scan on turma_sem  (cost=460 rows=4560) (actual time=0.0139..3.99 rows=4560 loops=1)
+
+EXPLAIN
+-> Aggregate: count(0)  (cost=30691 rows=1) (actual time=258..258 rows=1 loops=1)
+    -> Filter: ((matricula_sem.situacao = 'ATIVA') and (matricula_sem.id_turma = 11))  (cost=30389 rows=3014) (actual time=258..258 rows=0 loops=1)
+        -> Table scan on matricula_sem  (cost=30389 rows=301410) (actual time=0.0142..217 rows=302226 loops=1)
+
+estagio
+=== S1: INDICES DO ESQUEMA (PK, UNIQUE, indice implicito da FK) ===
+EXPLAIN
+-> Index lookup on matricula using uq_mat_aluno_turma (id_aluno=12345)  (cost=5.58 rows=6) (actual time=0.11..0.112 rows=6 loops=1)
+
+EXPLAIN
+-> Index lookup on avaliacao using uq_av_mat_tipo (id_matricula=150000)  (cost=1.85 rows=3) (actual time=0.0216..0.0235 rows=3 loops=1)
+
+EXPLAIN
+-> Filter: (turma.semestre = '2026.1')  (cost=460 rows=456) (actual time=0.17..2.78 rows=80 loops=1)
+    -> Table scan on turma  (cost=460 rows=4560) (actual time=0.166..2.14 rows=4560 loops=1)
+
+EXPLAIN
+-> Aggregate: count(0)  (cost=16.1 rows=1) (actual time=0.0911..0.0913 rows=1 loops=1)
+    -> Filter: (matricula.situacao = 'ATIVA')  (cost=15.9 rows=1.9) (actual time=0.0897..0.0897 rows=0 loops=1)
+        -> Index lookup on matricula using fk_mat_turma (id_turma=11)  (cost=15.9 rows=19) (actual time=0.0828..0.0863 rows=19 loops=1)
+
+Table	Op	Msg_type	Msg_text
+escola_idiomas.matricula	analyze	status	OK
+escola_idiomas.turma	analyze	status	OK
+estagio
+=== S2: COM INDICES EXPLICITOS ===
+EXPLAIN
+-> Index lookup on matricula using uq_mat_aluno_turma (id_aluno=12345)  (cost=3.03 rows=6) (actual time=0.0318..0.034 rows=6 loops=1)
+
+EXPLAIN
+-> Index lookup on avaliacao using uq_av_mat_tipo (id_matricula=150000)  (cost=2.35 rows=3) (actual time=0.0111..0.0125 rows=3 loops=1)
+
+EXPLAIN
+-> Index lookup on turma using idx_turma_semestre (semestre='2026.1'), with index condition: (turma.semestre = '2026.1')  (cost=20 rows=80) (actual time=0.112..0.122 rows=80 loops=1)
+
+EXPLAIN
+-> Aggregate: count(0)  (cost=1.2 rows=1) (actual time=0.00559..0.00572 rows=1 loops=1)
+    -> Covering index lookup on matricula using idx_matricula_turma_sit (id_turma=11, situacao='ATIVA')  (cost=1.1 rows=1) (actual time=0.00462..0.00462 rows=0 loops=1)
+

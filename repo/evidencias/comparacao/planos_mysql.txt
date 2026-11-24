@@ -1,0 +1,130 @@
+### mysql / S0_sem_indice / Q1: SELECT * FROM matricula_sem WHERE id_aluno=12345
+-> Filter: (matricula_sem.id_aluno = 12345)  (cost=30389 rows=30141) (actual time=7.29..156 rows=6 loops=1)
+    -> Table scan on matricula_sem  (cost=30389 rows=301410) (actual time=0.0227..140 rows=302226 loops=1)
+
+
+### mysql / S0_sem_indice / Q2: SELECT * FROM avaliacao_sem WHERE id_matricula=150000
+-> Filter: (avaliacao_sem.id_matricula = 150000)  (cost=91386 rows=90410) (actual time=208..438 rows=3 loops=1)
+    -> Table scan on avaliacao_sem  (cost=91386 rows=904098) (actual time=0.0207..393 rows=906482 loops=1)
+
+
+### mysql / S0_sem_indice / Q3: SELECT * FROM turma_sem WHERE semestre='2026.1'
+-> Filter: (turma_sem.semestre = '2026.1')  (cost=460 rows=456) (actual time=0.0194..2.84 rows=80 loops=1)
+    -> Table scan on turma_sem  (cost=460 rows=4560) (actual time=0.0132..2.42 rows=4560 loops=1)
+
+
+### mysql / S0_sem_indice / Q4: SELECT COUNT(*) FROM matricula_sem WHERE id_turma=11 AND situacao='ATIVA'
+-> Aggregate: count(0)  (cost=30691 rows=1) (actual time=139..139 rows=1 loops=1)
+    -> Filter: ((matricula_sem.situacao = 'ATIVA') and (matricula_sem.id_turma = 11))  (cost=30389 rows=3014) (actual time=139..139 rows=0 loops=1)
+        -> Table scan on matricula_sem  (cost=30389 rows=301410) (actual time=0.0202..117 rows=302226 loops=1)
+
+
+### mysql / S1_esquema / Q1: SELECT * FROM matricula WHERE id_aluno=12345
+-> Index lookup on matricula using uq_mat_aluno_turma (id_aluno=12345)  (cost=2.1 rows=6) (actual time=0.024..0.0258 rows=6 loops=1)
+
+
+### mysql / S1_esquema / Q2: SELECT * FROM avaliacao WHERE id_matricula=150000
+-> Index lookup on avaliacao using uq_av_mat_tipo (id_matricula=150000)  (cost=3.22 rows=3) (actual time=0.0166..0.0182 rows=3 loops=1)
+
+
+### mysql / S1_esquema / Q3: SELECT * FROM turma WHERE semestre='2026.1'
+-> Filter: (turma.semestre = '2026.1')  (cost=460 rows=456) (actual time=0.117..1.65 rows=80 loops=1)
+    -> Table scan on turma  (cost=460 rows=4560) (actual time=0.115..1.27 rows=4560 loops=1)
+
+
+### mysql / S1_esquema / Q4: SELECT COUNT(*) FROM matricula WHERE id_turma=11 AND situacao='ATIVA'
+-> Aggregate: count(0)  (cost=5.13 rows=1) (actual time=0.0306..0.0308 rows=1 loops=1)
+    -> Filter: (matricula.situacao = 'ATIVA')  (cost=4.94 rows=1.9) (actual time=0.0299..0.0299 rows=0 loops=1)
+        -> Index lookup on matricula using fk_mat_turma (id_turma=11)  (cost=4.94 rows=19) (actual time=0.0247..0.0273 rows=19 loops=1)
+
+
+### mysql / S2_indices / Q1: SELECT * FROM matricula WHERE id_aluno=12345
+-> Index lookup on matricula using uq_mat_aluno_turma (id_aluno=12345)  (cost=2.1 rows=6) (actual time=0.024..0.0258 rows=6 loops=1)
+
+
+### mysql / S2_indices / Q2: SELECT * FROM avaliacao WHERE id_matricula=150000
+-> Index lookup on avaliacao using uq_av_mat_tipo (id_matricula=150000)  (cost=3.23 rows=3) (actual time=0.0154..0.0171 rows=3 loops=1)
+
+
+### mysql / S2_indices / Q3: SELECT * FROM turma WHERE semestre='2026.1'
+-> Index lookup on turma using idx_turma_semestre (semestre='2026.1'), with index condition: (turma.semestre = '2026.1')  (cost=20 rows=80) (actual time=0.0932..0.103 rows=80 loops=1)
+
+
+### mysql / S2_indices / Q4: SELECT COUNT(*) FROM matricula WHERE id_turma=11 AND situacao='ATIVA'
+-> Aggregate: count(0)  (cost=1.2 rows=1) (actual time=0.00851..0.00866 rows=1 loops=1)
+    -> Covering index lookup on matricula using idx_matricula_turma_sit (id_turma=11, situacao='ATIVA')  (cost=1.1 rows=1) (actual time=0.00782..0.00782 rows=0 loops=1)
+
+
+### mysql / C1
+-> Sort: t.semestre  (actual time=0.496..0.496 rows=6 loops=1)
+    -> Table scan on <temporary>  (actual time=0.485..0.486 rows=6 loops=1)
+        -> Aggregate using temporary table  (actual time=0.484..0.484 rows=6 loops=1)
+            -> Nested loop inner join  (cost=28.6 rows=17.9) (actual time=0.0965..0.394 rows=18 loops=1)
+                -> Nested loop inner join  (cost=9.35 rows=6) (actual time=0.0277..0.0666 rows=6 loops=1)
+                    -> Inner hash join (no condition)  (cost=4.85 rows=30) (actual time=0.0204..0.0254 rows=30 loops=1)
+                        -> Covering index scan on i using uq_idioma_nome  (cost=0.25 rows=5) (actual time=0.00535..0.00749 rows=5 loops=1)
+                        -> Hash
+                            -> Covering index lookup on m using uq_mat_aluno_turma (id_aluno=100)  (cost=0.852 rows=6) (actual time=0.00672..0.00916 rows=6 loops=1)
+                    -> Filter: (t.id_idioma = i.id_idioma)  (cost=0.0507 rows=0.2) (actual time=0.00119..0.00121 rows=0.2 loops=30)
+                        -> Single-row index lookup on t using PRIMARY (id_turma=m.id_turma)  (cost=0.0507 rows=1) (actual time=953e-6..986e-6 rows=1 loops=30)
+                -> Index lookup on av using uq_av_mat_tipo (id_matricula=m.id_matricula)  (cost=2.95 rows=2.98) (actual time=0.0532..0.0539 rows=3 loops=6)
+
+
+### mysql / C2
+-> Limit: 5 row(s)  (actual time=2.35..2.35 rows=5 loops=1)
+    -> Sort: ocupacao_pct DESC, t.id_turma, limit input to 5 row(s) per chunk  (actual time=2.35..2.35 rows=5 loops=1)
+        -> Table scan on <temporary>  (actual time=2.3..2.31 rows=80 loops=1)
+            -> Aggregate using temporary table  (actual time=2.3..2.3 rows=80 loops=1)
+                -> Nested loop left join  (cost=769 rows=5427) (actual time=0.108..1.02 rows=1104 loops=1)
+                    -> Nested loop inner join  (cost=114 rows=80) (actual time=0.101..0.611 rows=80 loops=1)
+                        -> Nested loop inner join  (cost=102 rows=80) (actual time=0.0971..0.563 rows=80 loops=1)
+                            -> Covering index scan on i using uq_idioma_nome  (cost=1.5 rows=5) (actual time=0.00906..0.011 rows=5 loops=1)
+                            -> Filter: (t.id_idioma = i.id_idioma)  (cost=12.3 rows=16) (actual time=0.0835..0.109 rows=16 loops=5)
+                                -> Index lookup on t using idx_turma_semestre (semestre='2026.1'), with index condition: (t.semestre = '2026.1')  (cost=12.3 rows=80) (actual time=0.0817..0.0942 rows=80 loops=5)
+                        -> Single-row index lookup on p using PRIMARY (id_professor=t.id_professor)  (cost=0.0512 rows=1) (actual time=359e-6..391e-6 rows=1 loops=80)
+                    -> Covering index lookup on m using idx_matricula_turma_sit (id_turma=t.id_turma)  (cost=1.49 rows=67.8) (actual time=0.00272..0.0041 rows=13.8 loops=80)
+
+
+### mysql / C3
+-> Sort: media_geral DESC, i.nome  (actual time=8020..8020 rows=5 loops=1)
+    -> Stream results  (cost=1126 rows=0) (actual time=7589..8019 rows=5 loops=1)
+        -> Group aggregate: count(0), sum((med.media >= 7)), avg(med.media), count(0)  (cost=1126 rows=0) (actual time=7589..8019 rows=5 loops=1)
+            -> Nested loop inner join  (cost=1126 rows=0) (actual time=7423..7889 rows=301122 loops=1)
+                -> Covering index scan on i using uq_idioma_nome  (cost=1.5 rows=5) (actual time=0.0439..0.12 rows=5 loops=1)
+                -> Index lookup on med using <auto_key0> (id_idioma=i.id_idioma)  (cost=0.27..243 rows=900) (actual time=1485..1573 rows=60224 loops=5)
+                    -> Materialize CTE med  (cost=0..0 rows=0) (actual time=7423..7423 rows=301122 loops=1)
+                        -> Table scan on <temporary>  (actual time=6543..6654 rows=301122 loops=1)
+                            -> Aggregate using temporary table  (actual time=6543..6543 rows=301121 loops=1)
+                                -> Nested loop inner join  (cost=86550 rows=89970) (actual time=0.476..4581 rows=904488 loops=1)
+                                    -> Nested loop inner join  (cost=47703 rows=30218) (actual time=0.432..317 rows=301122 loops=1)
+                                        -> Filter: (m.situacao = 'CONCLUIDA')  (cost=31083 rows=30218) (actual time=0.409..179 rows=301122 loops=1)
+                                            -> Covering index scan on m using idx_matricula_turma_sit  (cost=31083 rows=302184) (actual time=0.407..105 rows=302226 loops=1)
+                                        -> Single-row index lookup on t using PRIMARY (id_turma=m.id_turma)  (cost=0.45 rows=1) (actual time=185e-6..220e-6 rows=1 loops=301122)
+                                    -> Index lookup on av using uq_av_mat_tipo (id_matricula=m.id_matricula)  (cost=0.988 rows=2.98) (actual time=0.0131..0.0137 rows=3 loops=301122)
+
+
+### mysql / C4
+-> Limit: 5 row(s)  (actual time=17.2..17.2 rows=5 loops=1)
+    -> Sort: media  (actual time=17.2..17.2 rows=5 loops=1)
+        -> Filter: (??? < 5)  (actual time=16.8..17.1 rows=39 loops=1)
+            -> Table scan on <temporary>  (actual time=16.8..17 rows=997 loops=1)
+                -> Aggregate using temporary table  (actual time=16.8..16.8 rows=997 loops=1)
+                    -> Nested loop inner join  (cost=17680 rows=16158) (actual time=0.0903..14.7 rows=1994 loops=1)
+                        -> Nested loop inner join  (cost=10822 rows=5427) (actual time=0.056..4.26 rows=1104 loops=1)
+                            -> Nested loop inner join  (cost=5941 rows=5427) (actual time=0.0493..1.55 rows=1104 loops=1)
+                                -> Filter: (t.semestre = '2026.1')  (cost=9.27 rows=80) (actual time=0.0275..0.0971 rows=80 loops=1)
+                                    -> Covering index lookup on t using idx_turma_semestre (semestre='2026.1')  (cost=9.27 rows=80) (actual time=0.0261..0.0488 rows=80 loops=1)
+                                -> Index lookup on m using idx_matricula_turma_sit (id_turma=t.id_turma)  (cost=67.5 rows=67.8) (actual time=0.0147..0.0169 rows=13.8 loops=80)
+                            -> Single-row index lookup on a using PRIMARY (id_aluno=m.id_aluno)  (cost=0.799 rows=1) (actual time=0.00222..0.00225 rows=1 loops=1104)
+                        -> Index lookup on av using uq_av_mat_tipo (id_matricula=m.id_matricula)  (cost=0.966 rows=2.98) (actual time=0.00875..0.00913 rows=1.81 loops=1104)
+
+
+### mysql / C5
+-> Limit: 5 row(s)  (actual time=0.323..0.324 rows=5 loops=1)
+    -> Sort: custo_semanal DESC, p.id_professor, limit input to 5 row(s) per chunk  (actual time=0.323..0.323 rows=5 loops=1)
+        -> Table scan on <temporary>  (actual time=0.306..0.309 rows=20 loops=1)
+            -> Aggregate using temporary table  (actual time=0.305..0.305 rows=20 loops=1)
+                -> Nested loop inner join  (cost=52.8 rows=80) (actual time=0.094..0.144 rows=80 loops=1)
+                    -> Index lookup on t using idx_turma_semestre (semestre='2026.1'), with index condition: (t.semestre = '2026.1')  (cost=24.8 rows=80) (actual time=0.0891..0.101 rows=80 loops=1)
+                    -> Single-row index lookup on p using PRIMARY (id_professor=t.id_professor)  (cost=0.251 rows=1) (actual time=319e-6..349e-6 rows=1 loops=80)
+

@@ -1,0 +1,120 @@
++---------------------------+
+| teste                     |
++---------------------------+
+| T1: CPF com letra (CHECK) |
++---------------------------+
+ERROR 3819 (HY000) at line 4: Check constraint 'chk_aluno_cpf' is violated.
++----------------------------+
+| teste                      |
++----------------------------+
+| T2: CPF duplicado (UNIQUE) |
++----------------------------+
+ERROR 1062 (23000) at line 6: Duplicate entry '00000000001' for key 'aluno.uq_aluno_cpf'
++-----------------------------+
+| teste                       |
++-----------------------------+
+| T3: e-mail invalido (CHECK) |
++-----------------------------+
+ERROR 3819 (HY000) at line 8: Check constraint 'chk_aluno_email' is violated.
++--------------------------------------------------------------------------------------+
+| teste                                                                                |
++--------------------------------------------------------------------------------------+
+| T4: nascimento no futuro (GATILHO - CHECK com CURRENT_DATE nao e permitido no MySQL) |
++--------------------------------------------------------------------------------------+
+ERROR 1644 (45000) at line 10: Data de nascimento no futuro
++--------------------------+
+| teste                    |
++--------------------------+
+| T5: nome nulo (NOT NULL) |
++--------------------------+
+ERROR 1048 (23000) at line 12: Column 'nome' cannot be null
++---------------------+
+| teste               |
++---------------------+
+| T6: nota 11 (CHECK) |
++---------------------+
+ERROR 3819 (HY000) at line 16: Check constraint 'chk_av_nota' is violated.
++-----------------------------------------------+
+| teste                                         |
++-----------------------------------------------+
+| T7: avaliacao duplicada na matricula (UNIQUE) |
++-----------------------------------------------+
+ERROR 1062 (23000) at line 18: Duplicate entry '1-PROVA1' for key 'avaliacao.uq_av_mat_tipo'
++------------------------------------------+
+| teste                                    |
++------------------------------------------+
+| T8: matricula com aluno inexistente (FK) |
++------------------------------------------+
+ERROR 1452 (23000) at line 20: Cannot add or update a child row: a foreign key constraint fails (`escola_idiomas`.`matricula`, CONSTRAINT `fk_mat_aluno` FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id_aluno`) ON DELETE RESTRICT)
++-------------------------------------------------------------------+
+| teste                                                             |
++-------------------------------------------------------------------+
+| T9: matricula repetida aluno/turma (copia a matricula 1) (UNIQUE) |
++-------------------------------------------------------------------+
+ERROR 1062 (23000) at line 23: Duplicate entry '111-1' for key 'matricula.uq_mat_aluno_turma'
++-----------------------------+
+| teste                       |
++-----------------------------+
+| T10: nivel invalido (CHECK) |
++-----------------------------+
+ERROR 3819 (HY000) at line 25: Check constraint 'chk_turma_nivel' is violated.
++------------------------------------------+
+| teste                                    |
++------------------------------------------+
+| T11: hora fim anterior ao inicio (CHECK) |
++------------------------------------------+
+ERROR 3819 (HY000) at line 27: Check constraint 'chk_turma_hora' is violated.
++----------------------------------------------------+
+| teste                                              |
++----------------------------------------------------+
+| T12: professor sem habilitacao no idioma (GATILHO) |
++----------------------------------------------------+
+ERROR 1644 (45000) at line 29: Professor nao habilitado no idioma
++-----------------------------------------------+
+| teste                                         |
++-----------------------------------------------+
+| T13: professor com choque de horario (UNIQUE) |
++-----------------------------------------------+
+ERROR 1062 (23000) at line 32: Duplicate entry '1-2025.2-1-08:00:00' for key 'turma.uq_turma_horario'
++------------------------------------------------+
+| teste                                          |
++------------------------------------------------+
+| T14: apagar turma com matriculas (FK RESTRICT) |
++------------------------------------------------+
+ERROR 1451 (23000) at line 34: Cannot delete or update a parent row: a foreign key constraint fails (`escola_idiomas`.`matricula`, CONSTRAINT `fk_mat_turma` FOREIGN KEY (`id_turma`) REFERENCES `turma` (`id_turma`) ON DELETE RESTRICT)
++-------------------------------------------------------------------------+
+| teste                                                                   |
++-------------------------------------------------------------------------+
+| T15: turma lotada (GATILHO de vagas) - 3 matriculas em turma de 2 vagas |
++-------------------------------------------------------------------------+
+ERROR 1644 (45000) at line 42: Turma sem vagas
++----------------------------+
+| matriculas_na_turma_lotada |
++----------------------------+
+|                          2 |
++----------------------------+
++------------------------------------------------------------------+
+| teste                                                            |
++------------------------------------------------------------------+
+| T16: ON DELETE CASCADE (avaliacoes removidas junto da matricula) |
++------------------------------------------------------------------+
++------------------+
+| avaliacoes_antes |
++------------------+
+|                4 |
++------------------+
++-------------------+
+| avaliacoes_depois |
++-------------------+
+|                 0 |
++-------------------+
++------------------------------------------+
+| teste                                    |
++------------------------------------------+
+| T17: insercao valida (controle positivo) |
++------------------------------------------+
++------------------+
+| linhas_inseridas |
++------------------+
+|                1 |
++------------------+

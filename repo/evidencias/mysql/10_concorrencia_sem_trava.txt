@@ -1,0 +1,8 @@
+turma de teste=8450 (1 vaga)
+sessao B: concluida
+sessao A: concluida (COMMIT)
++-------------------+-------+
+| matriculas_ativas | vagas |
++-------------------+-------+
+|                 2 |     1 |
++-------------------+-------+

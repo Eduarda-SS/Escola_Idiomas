@@ -1,0 +1,7 @@
+C2 PostgreSQL padrao: mediana 82.37 ms (min 81.43, max 95.85)
+C2 PostgreSQL sem seqscan/hashjoin: mediana 1.79 ms (min 1.72, max 2.07)
+C4 PostgreSQL padrao: mediana 54.44 ms (min 52.75, max 58.67)
+C4 PostgreSQL sem seqscan/hashjoin: mediana 6.50 ms (min 6.32, max 7.33)
+C2 PostgreSQL random_page_cost=1.1: mediana 1.49 ms (min 1.38, max 2.03)
+C3 PostgreSQL random_page_cost=1.1: mediana 1020.13 ms (min 974.00, max 1043.19)
+C4 PostgreSQL random_page_cost=1.1: mediana 12.26 ms (min 11.96, max 13.49)

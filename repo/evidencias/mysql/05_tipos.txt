@@ -1,0 +1,74 @@
++-----------+-----------------+--------------+------+
+| tabela    | coluna          | tipo         | nulo |
++-----------+-----------------+--------------+------+
+| aluno     | id_aluno        | int          | NO   |
+| aluno     | nome            | varchar(100) | NO   |
+| aluno     | cpf             | char(11)     | NO   |
+| aluno     | email           | varchar(120) | NO   |
+| aluno     | data_nascimento | date         | NO   |
+| aluno     | telefone        | varchar(15)  | YES  |
+| aluno     | criado_em       | timestamp    | NO   |
+| avaliacao | id_avaliacao    | int          | NO   |
+| avaliacao | id_matricula    | int          | NO   |
+| avaliacao | tipo            | varchar(10)  | NO   |
+| avaliacao | nota            | decimal(4,2) | NO   |
+| avaliacao | data_aplicacao  | date         | NO   |
+| turma     | id_turma        | int          | NO   |
+| turma     | id_idioma       | smallint     | NO   |
+| turma     | id_professor    | int          | NO   |
+| turma     | nivel           | varchar(2)   | NO   |
+| turma     | semestre        | char(6)      | NO   |
+| turma     | dia_semana      | smallint     | NO   |
+| turma     | hora_inicio     | time         | NO   |
+| turma     | hora_fim        | time         | NO   |
+| turma     | vagas           | smallint     | NO   |
++-----------+-----------------+--------------+------+
++------------------+--------------------+-------------+
+| tabela           | restricao          | tipo        |
++------------------+--------------------+-------------+
+| aluno            | chk_aluno_cpf      | CHECK       |
+| aluno            | chk_aluno_email    | CHECK       |
+| aluno            | PRIMARY            | PRIMARY KEY |
+| aluno            | uq_aluno_cpf       | UNIQUE      |
+| aluno            | uq_aluno_email     | UNIQUE      |
+| avaliacao        | chk_av_nota        | CHECK       |
+| avaliacao        | chk_av_tipo        | CHECK       |
+| avaliacao        | fk_av_mat          | FOREIGN KEY |
+| avaliacao        | PRIMARY            | PRIMARY KEY |
+| avaliacao        | uq_av_mat_tipo     | UNIQUE      |
+| idioma           | PRIMARY            | PRIMARY KEY |
+| idioma           | uq_idioma_nome     | UNIQUE      |
+| matricula        | chk_mat_situacao   | CHECK       |
+| matricula        | fk_mat_aluno       | FOREIGN KEY |
+| matricula        | fk_mat_turma       | FOREIGN KEY |
+| matricula        | PRIMARY            | PRIMARY KEY |
+| matricula        | uq_mat_aluno_turma | UNIQUE      |
+| professor        | chk_prof_salario   | CHECK       |
+| professor        | PRIMARY            | PRIMARY KEY |
+| professor        | uq_prof_email      | UNIQUE      |
+| professor_idioma | fk_pi_idioma       | FOREIGN KEY |
+| professor_idioma | fk_pi_prof         | FOREIGN KEY |
+| professor_idioma | PRIMARY            | PRIMARY KEY |
+| turma            | chk_turma_dia      | CHECK       |
+| turma            | chk_turma_hora     | CHECK       |
+| turma            | chk_turma_nivel    | CHECK       |
+| turma            | chk_turma_semestre | CHECK       |
+| turma            | chk_turma_vagas    | CHECK       |
+| turma            | fk_turma_idioma    | FOREIGN KEY |
+| turma            | fk_turma_prof      | FOREIGN KEY |
+| turma            | PRIMARY            | PRIMARY KEY |
+| turma            | uq_turma_horario   | UNIQUE      |
++------------------+--------------------+-------------+
++-------------+------+
+| tipo        | qtde |
++-------------+------+
+| CHECK       |   11 |
+| FOREIGN KEY |    7 |
+| PRIMARY KEY |    7 |
+| UNIQUE      |    7 |
++-------------+------+
++----------+
+| gatilhos |
++----------+
+|        5 |
++----------+

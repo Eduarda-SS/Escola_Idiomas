@@ -1,0 +1,249 @@
+### pg / S0_sem_indice / Q1: SELECT * FROM matricula_sem WHERE id_aluno=12345
+Gather (actual time=1.236..18.639 rows=6 loops=1)
+  Workers Planned: 1
+  Workers Launched: 1
+  ->  Parallel Seq Scan on matricula_sem (actual time=0.955..14.574 rows=3 loops=2)
+        Filter: (id_aluno = 12345)
+        Rows Removed by Filter: 151110
+Planning Time: 0.186 ms
+Execution Time: 18.680 ms
+
+### pg / S0_sem_indice / Q2: SELECT * FROM avaliacao_sem WHERE id_matricula=150000
+Gather (actual time=51.007..51.338 rows=3 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Parallel Seq Scan on avaliacao_sem (actual time=35.540..43.148 rows=1 loops=3)
+        Filter: (id_matricula = 150000)
+        Rows Removed by Filter: 302150
+Planning Time: 0.194 ms
+Execution Time: 51.403 ms
+
+### pg / S0_sem_indice / Q3: SELECT * FROM turma_sem WHERE semestre='2026.1'
+Seq Scan on turma_sem (actual time=0.010..0.364 rows=80 loops=1)
+  Filter: (semestre = '2026.1'::bpchar)
+  Rows Removed by Filter: 4480
+Planning Time: 0.191 ms
+Execution Time: 0.398 ms
+
+### pg / S0_sem_indice / Q4: SELECT COUNT(*) FROM matricula_sem WHERE id_turma=11 AND situacao='ATIVA'
+Aggregate (actual time=21.734..21.811 rows=1 loops=1)
+  ->  Gather (actual time=0.474..21.802 rows=17 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        ->  Parallel Seq Scan on matricula_sem (actual time=6.770..16.611 rows=8 loops=2)
+              Filter: ((id_turma = 11) AND ((situacao)::text = 'ATIVA'::text))
+              Rows Removed by Filter: 151104
+Planning Time: 0.226 ms
+Execution Time: 21.861 ms
+
+### pg / S1_esquema / Q1: SELECT * FROM matricula WHERE id_aluno=12345
+Bitmap Heap Scan on matricula (actual time=0.024..0.045 rows=6 loops=1)
+  Recheck Cond: (id_aluno = 12345)
+  Heap Blocks: exact=6
+  ->  Bitmap Index Scan on matricula_id_aluno_id_turma_key (actual time=0.017..0.017 rows=6 loops=1)
+        Index Cond: (id_aluno = 12345)
+Planning Time: 0.381 ms
+Execution Time: 0.092 ms
+
+### pg / S1_esquema / Q2: SELECT * FROM avaliacao WHERE id_matricula=150000
+Index Scan using avaliacao_id_matricula_tipo_key on avaliacao (actual time=0.021..0.022 rows=3 loops=1)
+  Index Cond: (id_matricula = 150000)
+Planning Time: 0.259 ms
+Execution Time: 0.063 ms
+
+### pg / S1_esquema / Q3: SELECT * FROM turma WHERE semestre='2026.1'
+Seq Scan on turma (actual time=0.009..0.380 rows=80 loops=1)
+  Filter: (semestre = '2026.1'::bpchar)
+  Rows Removed by Filter: 4480
+Planning Time: 0.310 ms
+Execution Time: 0.422 ms
+
+### pg / S1_esquema / Q4: SELECT COUNT(*) FROM matricula WHERE id_turma=11 AND situacao='ATIVA'
+Aggregate (actual time=24.756..24.867 rows=1 loops=1)
+  ->  Gather (actual time=24.746..24.859 rows=17 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        ->  Parallel Seq Scan on matricula (actual time=9.906..20.044 rows=8 loops=2)
+              Filter: ((id_turma = 11) AND ((situacao)::text = 'ATIVA'::text))
+              Rows Removed by Filter: 151104
+Planning Time: 0.315 ms
+Execution Time: 24.917 ms
+
+### pg / S2_indices / Q1: SELECT * FROM matricula WHERE id_aluno=12345
+Bitmap Heap Scan on matricula (actual time=0.032..0.050 rows=6 loops=1)
+  Recheck Cond: (id_aluno = 12345)
+  Heap Blocks: exact=6
+  ->  Bitmap Index Scan on matricula_id_aluno_id_turma_key (actual time=0.026..0.026 rows=6 loops=1)
+        Index Cond: (id_aluno = 12345)
+Planning Time: 0.283 ms
+Execution Time: 0.095 ms
+
+### pg / S2_indices / Q2: SELECT * FROM avaliacao WHERE id_matricula=150000
+Index Scan using avaliacao_id_matricula_tipo_key on avaliacao (actual time=0.020..0.021 rows=3 loops=1)
+  Index Cond: (id_matricula = 150000)
+Planning Time: 0.269 ms
+Execution Time: 0.061 ms
+
+### pg / S2_indices / Q3: SELECT * FROM turma WHERE semestre='2026.1'
+Bitmap Heap Scan on turma (actual time=0.022..0.031 rows=80 loops=1)
+  Recheck Cond: (semestre = '2026.1'::bpchar)
+  Heap Blocks: exact=2
+  ->  Bitmap Index Scan on idx_turma_semestre (actual time=0.013..0.013 rows=80 loops=1)
+        Index Cond: (semestre = '2026.1'::bpchar)
+Planning Time: 0.344 ms
+Execution Time: 0.076 ms
+
+### pg / S2_indices / Q4: SELECT COUNT(*) FROM matricula WHERE id_turma=11 AND situacao='ATIVA'
+Aggregate (actual time=0.029..0.029 rows=1 loops=1)
+  ->  Index Only Scan using idx_matricula_turma_sit on matricula (actual time=0.022..0.024 rows=17 loops=1)
+        Index Cond: ((id_turma = 11) AND (situacao = 'ATIVA'::text))
+        Heap Fetches: 0
+Planning Time: 0.331 ms
+Execution Time: 0.067 ms
+
+### pg / C1
+GroupAggregate (actual time=0.202..0.212 rows=6 loops=1)
+  Group Key: t.semestre, a.nome, i.nome, t.nivel, m.id_matricula
+  ->  Sort (actual time=0.188..0.190 rows=18 loops=1)
+        Sort Key: t.semestre, a.nome, i.nome, t.nivel, m.id_matricula
+        Sort Method: quicksort  Memory: 26kB
+        ->  Nested Loop (actual time=0.051..0.144 rows=18 loops=1)
+              ->  Nested Loop (actual time=0.044..0.087 rows=6 loops=1)
+                    Join Filter: (i.id_idioma = t.id_idioma)
+                    Rows Removed by Join Filter: 10
+                    ->  Nested Loop (actual time=0.033..0.073 rows=6 loops=1)
+                          ->  Index Scan using aluno_pkey on aluno a (actual time=0.009..0.009 rows=1 loops=1)
+                                Index Cond: (id_aluno = 100)
+                          ->  Nested Loop (actual time=0.023..0.061 rows=6 loops=1)
+                                ->  Index Scan using matricula_id_aluno_id_turma_key on matricula m (actual time=0.010..0.023 rows=6 loops=1)
+                                      Index Cond: (id_aluno = 100)
+                                ->  Index Scan using turma_pkey on turma t (actual time=0.005..0.005 rows=1 loops=6)
+                                      Index Cond: (id_turma = m.id_turma)
+                    ->  Materialize (actual time=0.001..0.002 rows=3 loops=6)
+                          ->  Seq Scan on idioma i (actual time=0.003..0.003 rows=5 loops=1)
+              ->  Index Scan using avaliacao_id_matricula_tipo_key on avaliacao av (actual time=0.008..0.009 rows=3 loops=6)
+                    Index Cond: (id_matricula = m.id_matricula)
+Planning Time: 1.278 ms
+Execution Time: 0.305 ms
+
+### pg / C2
+Limit (actual time=81.244..81.252 rows=5 loops=1)
+  ->  Sort (actual time=81.241..81.249 rows=5 loops=1)
+        Sort Key: (round(((100.0 * (count(m.*) FILTER (WHERE ((m.situacao)::text = 'ATIVA'::text)))::numeric) / (t.vagas)::numeric), 1)) DESC, t.id_turma
+        Sort Method: top-N heapsort  Memory: 25kB
+        ->  HashAggregate (actual time=81.125..81.195 rows=80 loops=1)
+              Group Key: t.id_turma, i.nome, p.nome
+              Batches: 1  Memory Usage: 217kB
+              ->  Hash Join (actual time=0.124..80.864 rows=1115 loops=1)
+                    Hash Cond: (t.id_professor = p.id_professor)
+                    ->  Hash Join (actual time=0.100..80.684 rows=1115 loops=1)
+                          Hash Cond: (t.id_idioma = i.id_idioma)
+                          ->  Hash Right Join (actual time=0.083..80.510 rows=1115 loops=1)
+                                Hash Cond: (m.id_turma = t.id_turma)
+                                ->  Seq Scan on matricula m (actual time=0.019..62.306 rows=302226 loops=1)
+                                ->  Hash (actual time=0.048..0.050 rows=80 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                                      ->  Bitmap Heap Scan on turma t (actual time=0.023..0.035 rows=80 loops=1)
+                                            Recheck Cond: (semestre = '2026.1'::bpchar)
+                                            Heap Blocks: exact=2
+                                            ->  Bitmap Index Scan on idx_turma_semestre (actual time=0.014..0.014 rows=80 loops=1)
+                                                  Index Cond: (semestre = '2026.1'::bpchar)
+                          ->  Hash (actual time=0.004..0.005 rows=5 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                ->  Seq Scan on idioma i (actual time=0.001..0.002 rows=5 loops=1)
+                    ->  Hash (actual time=0.015..0.016 rows=20 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          ->  Seq Scan on professor p (actual time=0.004..0.006 rows=20 loops=1)
+Planning Time: 1.075 ms
+Execution Time: 81.516 ms
+
+### pg / C3
+Sort (actual time=982.194..982.199 rows=5 loops=1)
+  Sort Key: (round(avg((avg(av.nota))), 2)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  ->  HashAggregate (actual time=982.161..982.168 rows=5 loops=1)
+        Group Key: i.nome
+        Batches: 1  Memory Usage: 24kB
+        ->  Hash Join (actual time=15.703..921.698 rows=301111 loops=1)
+              Hash Cond: (t.id_idioma = i.id_idioma)
+              ->  GroupAggregate (actual time=0.173..858.809 rows=301111 loops=1)
+                    Group Key: m.id_matricula, t.id_idioma
+                    ->  Incremental Sort (actual time=0.157..587.855 rows=904444 loops=1)
+                          Sort Key: m.id_matricula, t.id_idioma
+                          Presorted Key: m.id_matricula
+                          Full-sort Groups: 27412  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
+                          ->  Merge Join (actual time=0.060..433.753 rows=904444 loops=1)
+                                Merge Cond: (m.id_matricula = av.id_matricula)
+                                ->  Nested Loop (actual time=0.040..157.910 rows=301111 loops=1)
+                                      ->  Index Scan using matricula_pkey on matricula m (actual time=0.017..49.717 rows=301111 loops=1)
+                                            Filter: ((situacao)::text = 'CONCLUIDA'::text)
+                                            Rows Removed by Filter: 1115
+                                      ->  Memoize (actual time=0.000..0.000 rows=1 loops=301111)
+                                            Cache Key: m.id_turma
+                                            Cache Mode: logical
+                                            Hits: 296631  Misses: 4480  Evictions: 0  Overflows: 0  Memory Usage: 473kB
+                                            ->  Index Scan using turma_pkey on turma t (actual time=0.001..0.001 rows=1 loops=4480)
+                                                  Index Cond: (id_turma = m.id_turma)
+                                ->  Index Scan using avaliacao_id_matricula_tipo_key on avaliacao av (actual time=0.013..122.361 rows=906454 loops=1)
+              ->  Hash (actual time=15.494..15.495 rows=5 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    ->  Seq Scan on idioma i (actual time=15.468..15.471 rows=5 loops=1)
+Planning Time: 1.183 ms
+Execution Time: 996.796 ms
+
+### pg / C4
+Limit (actual time=53.173..53.290 rows=5 loops=1)
+  ->  Sort (actual time=53.171..53.287 rows=5 loops=1)
+        Sort Key: (round(avg(av.nota), 2))
+        Sort Method: top-N heapsort  Memory: 25kB
+        ->  Finalize HashAggregate (actual time=52.777..53.233 rows=43 loops=1)
+              Group Key: a.nome, t.id_turma, m.id_matricula
+              Filter: (avg(av.nota) < '5'::numeric)
+              Batches: 1  Memory Usage: 1297kB
+              Rows Removed by Filter: 962
+              ->  Gather (actual time=51.575..52.134 rows=1005 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    ->  Partial HashAggregate (actual time=46.829..47.094 rows=502 loops=2)
+                          Group Key: a.nome, t.id_turma, m.id_matricula
+                          Batches: 1  Memory Usage: 913kB
+                          Worker 0:  Batches: 1  Memory Usage: 529kB
+                          ->  Nested Loop (actual time=0.113..46.349 rows=1005 loops=2)
+                                ->  Nested Loop (actual time=0.096..43.401 rows=558 loops=2)
+                                      ->  Hash Join (actual time=0.076..40.135 rows=558 loops=2)
+                                            Hash Cond: (m.id_turma = t.id_turma)
+                                            ->  Parallel Seq Scan on matricula m (actual time=0.006..19.335 rows=151113 loops=2)
+                                            ->  Hash (actual time=0.047..0.048 rows=80 loops=2)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 11kB
+                                                  ->  Bitmap Heap Scan on turma t (actual time=0.024..0.034 rows=80 loops=2)
+                                                        Recheck Cond: (semestre = '2026.1'::bpchar)
+                                                        Heap Blocks: exact=2
+                                                        ->  Bitmap Index Scan on idx_turma_semestre (actual time=0.017..0.017 rows=80 loops=2)
+                                                              Index Cond: (semestre = '2026.1'::bpchar)
+                                      ->  Index Scan using aluno_pkey on aluno a (actual time=0.006..0.006 rows=1 loops=1115)
+                                            Index Cond: (id_aluno = m.id_aluno)
+                                ->  Index Scan using avaliacao_id_matricula_tipo_key on avaliacao av (actual time=0.004..0.005 rows=2 loops=1115)
+                                      Index Cond: (id_matricula = m.id_matricula)
+Planning Time: 1.270 ms
+Execution Time: 54.002 ms
+
+### pg / C5
+Limit (actual time=0.150..0.153 rows=5 loops=1)
+  ->  Sort (actual time=0.149..0.151 rows=5 loops=1)
+        Sort Key: ((sum((EXTRACT(epoch FROM (t.hora_fim - t.hora_inicio)) / '3600'::numeric)) * p.salario_hora)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        ->  HashAggregate (actual time=0.120..0.128 rows=20 loops=1)
+              Group Key: p.id_professor
+              Batches: 1  Memory Usage: 32kB
+              ->  Hash Join (actual time=0.048..0.074 rows=80 loops=1)
+                    Hash Cond: (t.id_professor = p.id_professor)
+                    ->  Bitmap Heap Scan on turma t (actual time=0.022..0.031 rows=80 loops=1)
+                          Recheck Cond: (semestre = '2026.1'::bpchar)
+                          Heap Blocks: exact=2
+                          ->  Bitmap Index Scan on idx_turma_semestre (actual time=0.014..0.014 rows=80 loops=1)
+                                Index Cond: (semestre = '2026.1'::bpchar)
+                    ->  Hash (actual time=0.014..0.015 rows=20 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                          ->  Seq Scan on professor p (actual time=0.003..0.005 rows=20 loops=1)
+Planning Time: 0.650 ms
+Execution Time: 0.225 ms

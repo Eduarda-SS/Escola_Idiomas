@@ -1,0 +1,12 @@
+== MySQL: ids das turmas historicas (esperado contiguo 161..4560 como no PostgreSQL) ==
++--------+--------+------+
+| min_id | max_id | qtde |
++--------+--------+------+
+|    256 |   4655 | 4400 |
++--------+--------+------+
+== PostgreSQL ==
+ min_id | max_id | qtde 
+--------+--------+------
+    161 |   4560 | 4400
+(1 row)
+
